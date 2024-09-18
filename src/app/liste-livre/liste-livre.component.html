@@ -1,1 +1,7 @@
-{{ requete$ | async }}
+
+  <div *ngIf="true">
+    <div *ngFor="let elementLivre of listeLivre">{{ elementLivre.id }}<br>
+        "{{ elementLivre.titre }}"<br>de {{ elementLivre.auteur }}
+      <!-- your html -->
+    </div>
+  </div>

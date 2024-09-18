@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Livre } from '../livre.interface';
-import { BehaviorSubject, Observable, of, Subject, tap } from 'rxjs';
+
+import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { Livre } from '../livre.interface';
+
 
 @Component({
   selector: 'app-liste-livre',
@@ -11,17 +13,31 @@ import { HttpClient } from '@angular/common/http';
 export class ListeLivreComponent implements OnInit {
   listeLivre:Livre[]=[];
   private databaseUrl = './assets/book.json';
-  private fluxLivre$=new BehaviorSubject<any>(undefined);
-  public requete$: Observable<any> = of(null);
+  public requete$!: Observable<any>;
+  
 
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
-    this.requete$ =this.http.get<Livre>(this.databaseUrl).pipe(
-      tap(value => this.fluxLivre$.next(value)));
+    this.requete$ =this.http.get<Livre>(this.databaseUrl)
+
     this.requete$.subscribe(tableau=> {
       tableau.forEach((instance:Livre)=> this.listeLivre.push(instance));
       });
+      //      this.chargerListe();
+  }
+
+  chargerListe():void {
+    let livre1 = new Livre(1, 'Le Petit Prince', 'Antoine de Saint-Exupéry');
+    let livre2 = new Livre(2, 'Les Misérables', 'Victor Hugo');
+    let livre3 = new Livre(3, '1984', 'George Orwell');
+    
+    // Ajout des livres dans le tableau au fur et à mesure
+    this.listeLivre.push(livre1);
+    this.listeLivre.push(livre2);
+    this.listeLivre.push(livre3);
+    console.log(livre1);
+
   }
 
 
